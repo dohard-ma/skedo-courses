@@ -1,9 +1,10 @@
-export function debounce(fn : Function, delay:number=300) {
-	let I = null
+export function debounce(fn : Function, delay : number = 300) {
+	let I : any = null
+
 	return (...args : Array<any>) => {
-		clearInterval(I)
+		clearTimeout(I)
 		I = setTimeout(() => {
 			fn(...args)
-		}, delay )
+		}, delay)
 	}
 }

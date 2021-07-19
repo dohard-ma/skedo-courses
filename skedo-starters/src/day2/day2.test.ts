@@ -1,40 +1,18 @@
-import {throttle} from './throttle'
-import {debounce} from './debounce'
+import { debounce } from "./debounce"
 import {timer} from 'rxjs'
-describe("throttle-test", () => {
+import { throttle } from "./throttle"
 
-
-	it("test", (done) => {
+describe("test", () => {
+	it("debounce", (done) => {
 
 		let count = 0
-	
-		function __addCount(){
-			count += 1
+		const __addCount = () => {
+			count ++
 		}
-	
-		const addCount = throttle(__addCount, 100)
 
-		const source = timer(0, 10)
-
-		source.subscribe((i:number) => {
-			if(i === 100) {
-				expect(count).toBe(11)
-				done()
-			} else {
-				addCount()
-			}
-		})
-	})
-
-	it("test-debounce", (done) => {
-		let count = 0
-		function __addCount(){
-			count += 1
-		}
-	
 		const addCount = debounce(__addCount, 100)
 
-		const source = timer(0, 10)
+		const source = timer(0, 10) // Observable
 
 		const subscription = source.subscribe((i) => {
 			if(i === 100) {
@@ -42,12 +20,39 @@ describe("throttle-test", () => {
 				setTimeout(() => {
 					expect(count).toBe(1)
 					done()
-				}, 350)
-			}else {
+				}, 200)
+			} else {
 				addCount()
 			}
+
 		})
 
-	
+
+
+	})
+
+	it("throttle", (done) => {
+
+		let count = 0
+		const __addCount = () => {
+			count ++
+		}
+
+		const addCount = throttle(__addCount, 100)
+
+		const source = timer(0, 10) // Observable
+
+		// > 1000ms
+		const subscription = source.subscribe((i) => {
+			if(i === 100) {
+				subscription.unsubscribe()
+				expect(count).toBe(11)	
+				done()
+			} else {
+				addCount()
+			}
+
+		})
+
 	})
 })

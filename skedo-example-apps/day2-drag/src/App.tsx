@@ -6,7 +6,7 @@ const App = () => {
       <Draggable
         handle=".handle"
         defaultPosition={{ x: 0, y: 0 }}
-        grid={[5, 5]}
+        grid={[50, 50]}
         scale={1}
       >
         <div
