@@ -1,23 +1,11 @@
 import * as babel from "@babel/core"
-import plugin from './babel-plugin-closure-id'
+import plugin from './testplugin'
 
 
 const code = `
-import {ref, _createVNode} from 'vue'
-import { lexicalScoped, effect }  from '@skedo/lexical-cache'
 
-lexicalScoped('ref')
+const a = 1
 
-effect(() => {
-
-}, [])
-
-function foo(){
-	ref(0)
-	ref(0)
-	ref(0)
-	ref(0)
-}
 
 `
 

@@ -6,8 +6,6 @@ import Panel from "./Panel"
 import Editor  from "../object/Editor"
 
 
-
-
 export default defineComponent({
 	setup(){
 

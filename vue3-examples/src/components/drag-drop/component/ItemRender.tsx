@@ -1,13 +1,10 @@
-
 import { ref } from "vue"
-import Draggable from "./Draggable"
+import { lexicalCache, lexicalScoped } from "../../../../../../skedo/lexical-scoped/src"
 import Editor from "../object/Editor"
-import { Actions } from "../types/editor.types"
-import DragNode from "../object/DragNode"
-import Node from "../object/Node"
-import { lexicalCache, lexicalScoped } from "@skedo/lexical-cache"
 import { EditorEvents } from "../object/EditorEvents"
-
+import Node from '../object/Node'
+import { Actions } from "../types/editor.types"
+import Draggable from "./Draggable"
 
 lexicalScoped('ref')
 type ItemRenderProps = {
@@ -23,11 +20,12 @@ const ItemRenderForDraggable = (props: ItemRenderProps) => {
 	lexicalCache(() => {
 		node.on(EditorEvents.NodePositionUpdated)
 			.subscribe(() => {
-				ver.value ++
+				ver.value++
 			})
-	},[])
 
-  function render(ver : number) {
+	}, [])
+
+	function render(ver : number) {
     switch (props.node.getType()) {
       case "image":
         return (
@@ -57,71 +55,62 @@ const ItemRenderForDraggable = (props: ItemRenderProps) => {
         )
     }
   }
-	function handleDragStart(node : Node, dragNode : DragNode){
-		editor.dispatch(Actions.EvtDragStart, node)
-	}
 
-	function handleDrag(node : Node, dragNode : DragNode){
-		editor.dispatch(Actions.EvtDrag)
-	}
-
-	function handleDragEnd(node : Node, dragNode: DragNode){
-		editor.dispatch(Actions.EvtDragEnd, [dragNode.diffX, dragNode.diffY])
-	}
-	return (
-    <Draggable
-      initialPosition={[node.getX(), node.getY()]}
-      onDragStart={(dragNode: DragNode) =>
-        handleDragStart(node, dragNode)
-      }
-      onDrag={(dragNode: DragNode) =>
-        handleDrag(node, dragNode)
-      }
-      onDragEnd={(dragNode?: DragNode) => {
-        handleDragEnd(node, dragNode!)
-      }}
-    >
-      {render(ver.value)}
-    </Draggable>
-  )
+	return <Draggable initialPosition={[node.getX(), node.getY()]}
+		onDragStart={(dragNode) => {
+			editor.dispatch(Actions.EvtDragStart, node)
+		}}
+		onDrag={() => {
+			editor.dispatch(Actions.EvtDrag)
+		}}
+		onDragEnd={(dragNode) => {
+			editor.dispatch(Actions.EvtDragEnd, [dragNode.diffX, dragNode.diffY])
+		}}
+	>
+		{render(ver.value)}
+	</Draggable>
 }
 
-const ItemRender = (props : ItemRenderProps) => {
-	const {node, editor, style, ...others} = props
-  const ver = ref(0)
 
-  lexicalCache(() => {
-    node.on(EditorEvents.NodeChildrenUpdated)
-      .subscribe(() => {
-        ver.value ++
-      })
-  }, [])
+export const ItemRender = ({node, editor}: ItemRenderProps) => {
+	console.log('item-render.render', node)
 
-  console.log('render', ver.value)
-	switch (node.getType()) {
-    case "root":
-      const children = node.getChildren()
-      console.log('children', children)
-      return (
-        <div>
-          {children.map((node, i) => {
-            return (
-              <ItemRender style={{
-                width : node.getW() + 'px',
-                height : node.getH() + 'px'
-              }} key={i} editor={editor} node={node} />
+	const ver = ref(0)
+
+	lexicalCache(() => {
+		node.on(EditorEvents.NodeChildrenUpdated)
+			.subscribe(() => {
+				ver.value++
+			})
+
+
+	},[])
+	switch(node.getType()) {
+		case 'root':
+			const children = node.getChildren()
+			return <div key={ver.value}>
+					{children.map( (node : Node, i : number) => {
+						console.log('render-children')
+						return (
+              <ItemRender
+								style={{
+									width : node.getW() + 'px',
+									height : node.getH() + 'px'
+								}}
+                node={node}
+                key={i}
+                editor={editor}
+              />
             )
-          })}
-        </div>
-      )
-    case "rect":
-    case "image":
-    case "text":
+					})}
+				</div>
+		case "rect":
+		case "image":
+  	case "text":
 			return <ItemRenderForDraggable editor={editor} node={node} />
+		default:
+			throw new Error("unsupported type:"+ node.getType())
+	}
 
-    default:
-      throw new Error("unsupported type")
-  }
+	
 }
-
-export default ItemRender

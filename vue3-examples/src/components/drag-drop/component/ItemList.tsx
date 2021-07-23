@@ -13,7 +13,6 @@ type Unwrapped<T> = T extends (infer U)[] ? U : T
 export default (props : EditorProps) => {
 
 	function handleDragStart(e : DragEvent, meta : Unwrapped<typeof metas>){
-		e.dataTransfer!.setData("x", "1")
 		props.editor.dispatch(Actions.StartAddComponent, meta)
 	}
 

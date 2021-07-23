@@ -39,6 +39,11 @@ export type DragData = {
 	diffX : number,
 	diffY : number
 }
+export type RawDragEvents = {
+	onDragstart ? : (e  : DragEvent) => void,
+	onDragend ? : (e : DragEvent) => void,
+	onDrag? : (e : DragEvent) => void,
+}
 
 export type DragEvents = {
 	onDragStart ? : (e  : DragNode) => void,

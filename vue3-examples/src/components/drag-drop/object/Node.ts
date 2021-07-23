@@ -1,9 +1,10 @@
-import {List, Map} from 'immutable'
 import { Emiter } from '@skedo/core'
-import { EditorEvents } from './EditorEvents'
-export default class Node extends Emiter<EditorEvents>{
-	private nodeData : Map<string, any>
-	constructor(type : string, x : number, y : number, w : number, h : number){
+import {List, Map} from 'immutable'
+export default class Node extends Emiter<number> {
+
+	private nodeData : Map<string,any>
+
+	constructor(type :string, x : number, y : number,w : number,h : number) {
 		super()
 		this.nodeData = Map({
 			type,
@@ -16,17 +17,13 @@ export default class Node extends Emiter<EditorEvents>{
 	}
 
 	public add(child : Node) {
-		this.nodeData = this.nodeData.update('children',  (children : List<Node>) => {
+		this.nodeData = this.nodeData.update('children', (children : List<Node>) => {
 			return children.push(child)
 		})
 	}
 
 	public getType() {
 		return this.nodeData.get('type')
-	}
-
-	public getChildren() : Array<Node>{
-		return this.nodeData.get('children').toJS()
 	}
 
 	public getX(){
@@ -43,6 +40,10 @@ export default class Node extends Emiter<EditorEvents>{
 
 	public getH() {
 		return this.nodeData.get('h')
+	}
+
+	public getChildren(){
+		return this.nodeData.get('children').toJS()
 	}
 
 	public setXYByVector(vec : [number,number]) {
