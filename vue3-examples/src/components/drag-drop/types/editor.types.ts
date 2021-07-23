@@ -1,4 +1,4 @@
-import { Ref } from "vue"
+import DragNode from "../object/DragNode"
 
 export type ComponentDesc = {
   type : string,
@@ -15,14 +15,18 @@ export enum States {
   DragStart,
   Moving,
   Stoped,
-  Selected
+  Selected,
+  PlacingComponent,
+  AddingComponent
 }
 
 export enum Actions {
   AUTO,
   EvtDragStart,
   EvtDrag,
+  EvtDrop,
   EvtDragEnd,
+  StartAddComponent,
 }
 
 
@@ -34,4 +38,20 @@ export type DragData = {
 	y : number,
 	diffX : number,
 	diffY : number
+}
+
+export type DragEvents = {
+	onDragStart ? : (e  : DragNode) => void,
+	onDragEnd ? : (e : DragNode) => void,
+	onDrag? : (e : DragNode) => void,
+}
+export type DraggableProps = {
+	initialPosition : [number, number]
+} & DragEvents
+
+
+export type Meta = {
+  type : string,
+  w : number,
+  h : number
 }

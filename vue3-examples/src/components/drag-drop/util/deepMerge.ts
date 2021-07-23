@@ -3,7 +3,11 @@ function deepMergeArry(a : Array<any>, b : Array<any>) {
 }
 
 function deepMergeObject(a : any, b : any) {
-	return Object.assign({}, a, b)
+	const obj : any = {...a}
+	for(let key in b) {
+		obj[key] = key in a ? deepMerge(a[key], b[key]) : b[key]
+	}
+	return obj
 }
 
 export function deepMerge(a : any, b : any){

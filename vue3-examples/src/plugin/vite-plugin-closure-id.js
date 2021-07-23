@@ -1,20 +1,20 @@
-import babel from '@babel/core'
-import plugin from './babel-plugin-closure-id'
+const babel = require('@babel/core')
+const plugin = require('./babel-plugin-closure-id').default
 const { createFilter } = require('@rollup/pluginutils')
 
-function vueJsxPlugin(options = {}) {
+function closureIdPlugin(options) {
   return {
     name: 'closure-id',
-    transform(code, id, ssr) {
+    transform(code, id) {
       const {
         include,
         exclude,
       } = options
 
-      const filter = createFilter(include || /\.[jt]sx$/, exclude)
+      const filter = createFilter(include || /\.[jt]sx?$/, exclude)
 
       if (filter(id)) {
-        const plugins = [plugin()]
+        const plugins = [plugin(null, options, null)]
         const result = babel.transformSync(code, {
           babelrc: false,
           ast: true,
@@ -24,6 +24,7 @@ function vueJsxPlugin(options = {}) {
           configFile: false
         })
 
+        console.log(result.code)
         return {
           code: result.code,
           map: result.map
@@ -33,4 +34,5 @@ function vueJsxPlugin(options = {}) {
   }
 }
 
-export default vueJsxPlugin
+module.exports = closureIdPlugin
+closureIdPlugin.default = closureIdPlugin

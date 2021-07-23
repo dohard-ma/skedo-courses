@@ -1,4 +1,4 @@
-type StateTransferFunction = () => void 
+type StateTransferFunction = (...args : Array<any>) => void 
 /**
  * S : 状态 
  * A : Action
@@ -24,7 +24,7 @@ export default class StateMachine<S extends number, A extends number> {
 		adjTable.set(action, [fn, to])
 	}
 
-	dispatch(action : A) {
+	dispatch(action : A, ...data : Array<any>) {
 		const adjTable = this.table.get(this.s)
 		if(!adjTable) {
 			return false
@@ -35,11 +35,11 @@ export default class StateMachine<S extends number, A extends number> {
 		}
 
 		const [fn, nextS] = adjTable.get(action)!
-		fn()
+		fn(...data)
 		this.s = nextS
 
 		// Try all auto actions 
-		while(this.dispatch(0 as A)); 
+		while(this.dispatch(0 as A, ...data)); 
 
 		return true
 
