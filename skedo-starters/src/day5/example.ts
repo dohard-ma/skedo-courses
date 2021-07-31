@@ -26,11 +26,6 @@ function reducer(state : UserState = {logined: "not login"}, action : UserAction
         ...state,
         logined : isUserLoggedIn
       }
-    // case "CHECK_USER_ORDERS" : 
-    //   return {
-    //     ...state,
-    //     orders : getUserOrders
-    //   }
   }
   return state
 }
