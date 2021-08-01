@@ -1,5 +1,5 @@
 import { Ref, ref } from "vue";
-import { lexicalCache, lexicalScoped, effect } from "@skedo/lexical-cache";
+import { lexicalCache, lexicalScoped, effect } from "@skedo/vue-lexical-cache";
 import DragNode from "../object/DragNode";
 import { DragEvents, RawDragEvents } from "../types/editor.types";
 

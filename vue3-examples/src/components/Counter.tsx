@@ -1,4 +1,4 @@
-import { lexicalScoped, effect }  from '@skedo/lexical-cache'
+import { lexicalScoped, effect }  from '@skedo/vue-lexical-cache'
 import { ref } from 'vue'
 
 lexicalScoped("ref", "effect")

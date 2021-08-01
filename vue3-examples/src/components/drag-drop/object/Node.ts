@@ -1,4 +1,4 @@
-import { Emiter } from '@skedo/core'
+import { Emiter } from './Emiter'
 import {List, Map} from 'immutable'
 export default class Node extends Emiter<number> {
 

@@ -49,10 +49,10 @@ const createPlugin = () => {
 						if(source === 'vue') {
 							const identifier = path.node.specifiers.find(x => x.local.name === '_createVNode')
 							if(identifier) {
-								path.node.source.value = "@skedo/lexical-cache"
+								path.node.source.value = "@skedo/vue-lexical-cache"
 							}
 						}
-						else if(source === "@skedo/lexical-cache") {
+						else if(source === "@skedo/vue-lexical-cache") {
 							const specifiers = path.node.specifiers
 							const specifier = specifiers.find(x => x.local.name === 'lexicalCache')
 							if(!specifiers.find(x => x.local.name === 'lexicalCache')) {

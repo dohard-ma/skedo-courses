@@ -1,5 +1,5 @@
 import { ref, SetupContext, VNode } from "vue"
-import {lexicalCache, lexicalScoped} from '@skedo/lexical-cache'
+import {lexicalCache, lexicalScoped} from '@skedo/vue-lexical-cache'
 import { DragEvents, DraggableProps, RawDragEvents } from "../types/editor.types"
 import { useDragNode } from "../hook/useDragNode"
 import DragNode from "../object/DragNode"

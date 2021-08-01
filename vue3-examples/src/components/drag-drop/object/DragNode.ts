@@ -1,4 +1,4 @@
-import { Emiter } from '@skedo/core'
+import { Emiter } from './Emiter'
 
 export default class DragNode extends Emiter<number> {
   dragging: boolean = false
