@@ -1,0 +1,8 @@
+{
+  "compilerOptions" : {
+    "lib" : ["esnext"],
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "noImplicitAny": true 
+  }
+}
