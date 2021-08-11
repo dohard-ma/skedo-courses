@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import App from './examples/TextInputWithFocusButton';
+import App from './examples/context/Container';
 
 ReactDOM.render(
   <App />,

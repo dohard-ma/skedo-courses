@@ -12,6 +12,7 @@
     "@types/jest": "^26.0.24",
     "@types/jsdom": "^16.2.13",
     "@types/node": "^16.3.2",
+    "immutable": "^4.0.0-rc.14",
     "jest": "^27.0.6",
     "jsdom": "^16.6.0",
     "redux": "^4.1.0",

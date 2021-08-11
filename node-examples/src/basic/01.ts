@@ -1,4 +1,5 @@
 import {Readable} from 'stream'
+
 (() => {
   class RandomStream extends Readable{
     _read(){
