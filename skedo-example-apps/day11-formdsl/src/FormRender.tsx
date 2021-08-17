@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { FormItemProps, Meta } from "./dsl.types";
+import React, { useEffect, useMemo, useRef } from "react";
+import { FormItemProps, FormTopic, Meta } from "./dsl.types";
 import { Form, FormItem } from "./Form";
 
-function useForm(meta : Meta) {
-  const form = useMemo(() => new Form(meta) , [])
+function useForm(meta : Meta, context : any) {
+  const form = useMemo(() => new Form(meta, context) , [])
   return form
 }
-export default ({meta} : {meta : Meta}) => {
-  const form = useForm(meta)
+export default ({meta, context} : {meta : Meta, context : any}) => {
+  const form = useForm(meta, context)
   return <FormComponent item={form.getRoot()} />
 }
 
@@ -31,6 +31,14 @@ const Condition = (props : FormItemProps) => {
 
 const Input = (props : FormItemProps) => {
   const ref = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    props.item.on(FormTopic.ValueChanged)
+      .subscribe(() => {
+        ref.current!.value = props.item.getValue()
+      })
+
+  }, [])
 
   useEffect(() => {
     ref.current!.value = props.defaultValue 

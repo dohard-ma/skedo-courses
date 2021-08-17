@@ -3,6 +3,10 @@ import { FormItem } from './Form'
 
 export type Store = ImmutableMap<string, Store>
 
+export enum FormTopic {
+  ValueChanged
+}
+
 export type FormItemMeta = {
   type : string, 
   path? : Array<string | number>,

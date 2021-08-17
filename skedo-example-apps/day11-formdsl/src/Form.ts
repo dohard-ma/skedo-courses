@@ -1,13 +1,17 @@
 import {fromJS, Map as ImmutableMap} from 'immutable'
-import { FormItemMeta, Meta, Store } from './dsl.types'
+import { FormItemMeta, FormTopic, Meta, Store } from './dsl.types'
+import { Emiter } from './Emiter'
 
 
-export class FormItem {
+
+export class FormItem extends Emiter<FormTopic> {
 
   private meta : FormItemMeta 
   private children : FormItem[]
   private form : Form 
+  private oldValue : any
   constructor(meta : FormItemMeta, form : Form){
+    super()
     this.form = form 
     this.meta = meta
     this.children = []
@@ -17,11 +21,22 @@ export class FormItem {
     })
   }
 
-  public getValue(){
-    const val = this.form.getValue(this.meta.path!) 
-    if(typeof val === 'undefined') {
-      return this.meta.default
+  private _getValue(){
+    
+    let val : any
+
+    if(this.meta.path) {
+      val = this.form.getValue(this.meta.path!) 
     }
+    if(typeof val === 'undefined') {
+      val = this.meta.default
+    }
+    return val
+  }
+
+  public getValue() : any{
+    const val = this._getValue() 
+    this.oldValue = val
     return val
   }
 
@@ -48,6 +63,19 @@ export class FormItem {
 
   }
 
+  public updated(){
+
+    const value = this._getValue()
+    if(this.oldValue !== value) {
+      this.emit(FormTopic.ValueChanged, value)
+    }
+    this.oldValue = value
+    
+    for(let item of this.children) {
+      item.updated()
+    }
+  }
+
   public getCond(){
     return () => {
       return this.meta.cond!(this.form.getContext())
@@ -57,13 +85,14 @@ export class FormItem {
 
 }
 
-export class Form {
+export class Form extends Emiter<FormTopic> {
 
   private meta : Meta 
   private form : FormItem
   private store : Store
   private context ? : any
   constructor(meta : Meta, context ? : any){
+    super()
     this.meta = meta
     this.store = this.initStore()
     this.form = new FormItem(this.meta.form, this)
@@ -102,6 +131,8 @@ export class Form {
 
   public setData(data : any){
     this.store = fromJS(data) as ImmutableMap<string, Store>
+
+    this.form.updated()
   }
 
   private updateDefaultValues(){
