@@ -1,6 +1,8 @@
 import { createStore } from "redux"
 import { asReducer, action } from "./asReducer"
 
+// list : 100W  [...list]
+// immutable 100W hashTable[i..] C
 class ToDoList {
 	private list : string[] = [] 
 	
@@ -40,6 +42,8 @@ store.dispatch({
 	type : 'insert',
 	args : ["TODO-B"]
 })
+
+
 
 
 
