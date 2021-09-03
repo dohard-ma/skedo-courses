@@ -1,11 +1,30 @@
 import { lexicalScoped, effect }  from '@skedo/vue-lexical-cache'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 lexicalScoped("ref", "effect")
 
 
+const X =() => {
+  const [v, setv] = useState(0)
+  return <div /> 
+}
+
+defineComponent({
+  setup() {
+    const counter = ref(0)
+    setTimeout(() => {
+      counter.value++
+    }, 1000)
+    return () => {
+      console.log(counter.value)
+      // track
+      return <div>{counter.value}</div>
+    }
+  }
+})
 
 export default () => {
+  // per lexical scope + per vNode
   const counter = ref(0)
 	effect(() => {
 		console.log('value changed to', counter.value)
