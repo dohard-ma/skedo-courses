@@ -15,7 +15,10 @@ module.exports = {
 					presets : [
 						"@babel/preset-env",
 						// "babel-preset-typescript-vue3",
-						"@babel/preset-typescript"
+						"@babel/preset-typescript",
+					],
+					plugins : [
+						"@babel/plugin-vue-jsx"
 					]
 				},
 				exclude : /node_modules/

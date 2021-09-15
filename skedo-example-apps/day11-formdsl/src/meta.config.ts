@@ -3,6 +3,7 @@ type FooContext = {
     state : string
   }
 }
+
 export default {
   form: {
     type : "form",
