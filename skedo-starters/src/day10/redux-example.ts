@@ -40,7 +40,7 @@ const formMeta = {
 }
 
 
-function reducer(state = , action : Action & {
+function reducer(state = new Form(), action : Action & {
   path : string[],
   value : any
 }) {
