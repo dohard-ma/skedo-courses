@@ -3,7 +3,6 @@ import { FormItemMeta, FormTopic, Meta, Store } from './dsl.types'
 import { Emiter } from './Emiter'
 
 
-
 export class FormItem extends Emiter<FormTopic> {
 
   private meta : FormItemMeta 

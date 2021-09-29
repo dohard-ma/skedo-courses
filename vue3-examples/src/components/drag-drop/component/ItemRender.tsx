@@ -1,5 +1,5 @@
 import { ref } from "vue"
-import { lexicalCache, lexicalScoped } from "@skedo/vue-lexical-cache"
+import { lexicalCache, lexicalScope } from "@skedo/vue-lexical-cache"
 import Editor from "../object/Editor"
 import { EditorEvents } from "../object/EditorEvents"
 import Node from '../object/Node'

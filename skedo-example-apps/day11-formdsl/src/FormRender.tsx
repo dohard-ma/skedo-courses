@@ -2,15 +2,14 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { FormItemProps, FormTopic, Meta } from "./dsl.types";
 import { Form, FormItem } from "./Form";
 
-function useForm(meta : Meta, context : any) {
-  const form = useMemo(() => new Form(meta, context) , [])
-  return form
+export default {
+  setup : () => {
+    const form = ref(new Form())
+    return () => {
+      return <FormComponent item={form.value.getRoot()} /
+    }
+  }
 }
-export default ({meta, context} : {meta : Meta, context : any}) => {
-  const form = useForm(meta, context)
-  return <FormComponent item={form.getRoot()} />
-}
-
 const FormComponent = (props : FormItemProps) => {
 
   const item = props.item

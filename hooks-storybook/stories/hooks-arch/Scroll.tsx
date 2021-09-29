@@ -1,14 +1,3 @@
-# 封装公共行为
-
-
-
-## 公共Scroll事件的封装
-
-
-
-可以通过Hooks封装公共的行为，例如滑动、触摸等复杂的事件处理，可以用hooks封装，从而简化使用。
-
-```tsx
 import { UIEventHandler, useEffect, useRef } from "react"
 
 class ScrollDescriptor {
@@ -94,51 +83,3 @@ export const ScrollerExample = () => {
     </div>
   )
 }
-```
-
-
-
-## 状态封装
-
-可以使用hooks进行状态的封装，例如之前我们实现的`受控` 组件和`非受控`组件的公共逻辑。
-
-```tsx
-import { ChangeEventHandler, useEffect, useState } from "react"
-
-
-export function useValue<T>({
-  value,
-  defaultValue,
-  onChange,
-}: {
-  value?: T
-  defaultValue?: T
-  onChange?: (val : T) => void 
-}): [T, (val: T) => void] {
-  const controlled = typeof value !== "undefined"
-  const [_value, setValue] = useState<T>(
-    controlled ? value : defaultValue
-  )
-  useEffect(() => {
-    if (controlled && value !== _value) {
-      setValue(value)
-    }
-  }, [value])
-
-  useEffect(() => {
-    if (value !== defaultValue) {
-      onChange && onChange(value)
-    }
-  }, [_value])
-
-  const setHandler = (val: T) => {
-    if (!controlled) {
-      setValue(val)
-    } else {
-      onChange && onChange(val)
-    }
-  }
-  return [_value, setHandler]
-}
-```
-

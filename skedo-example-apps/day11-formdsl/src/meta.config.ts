@@ -3,6 +3,13 @@ type FooContext = {
     state : string
   }
 }
+// and
+// redux-form
+
+{
+  type : 'input',
+  data : 100,
+}
 
 export default {
   form: {
