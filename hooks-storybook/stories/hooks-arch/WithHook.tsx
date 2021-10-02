@@ -11,10 +11,29 @@ export const ControlledCounter = () => {
 
   return (
     <div>
+
       {counter}
       <button onClick={() => setCounter(counter + 1)}>
         +
       </button>
     </div>
+  )
+}
+
+
+const Input = ({value, defaultValue} : {
+  value ? : string,
+  defaultValue ? : string
+}) => {
+  const [_value, setValue] = useValue({
+    value, 
+    defaultValue
+  })
+
+  return (
+    <input
+      value={_value}
+      onChange={(e) => setValue(e.target.value)}
+    />
   )
 }

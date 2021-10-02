@@ -5,6 +5,21 @@ class ScrollDescriptor {
   private top: number = 0
   private scrollHeight: number = 0
   private offsetHeight: number = 0
+  
+  private scrollToBottomHandlers : Function[] = []
+    
+  public onScrollToBottom(handler : Function){
+      this.scrollToBottomHandlers.push(handler)
+      return () => {
+          this.scrollToBottomHandlers = 
+              this.scrollToBottomHandlers.filter(x => x !== handler)
+      }
+  }
+  
+  private triggerScrollToBottom(){
+      this.scrollToBottomHandlers.forEach(h => h())
+
+  }
 
   public update(
     left: number,
@@ -16,6 +31,9 @@ class ScrollDescriptor {
     this.top = top
     this.scrollHeight = scrollHeight
     this.offsetHeight = offsetHeight
+    if(this.bottomReached()) {
+        this.triggerScrollToBottom()
+    }        
   }
 
   public bottomReached() {
@@ -44,11 +62,12 @@ export const ScrollerExample = () => {
   const {onScroll, info} = useScroll()
 
   useEffect(() => {
-    function raf() {
-      console.log(info.bottomReached())
-      requestAnimationFrame(raf)
+    const unsub = info.onScrollToBottom(() => {
+        console.log("bottom reached")
+    })
+    return () => {
+        unsub()
     }
-    raf()
   }, [])
   return (
     <div
