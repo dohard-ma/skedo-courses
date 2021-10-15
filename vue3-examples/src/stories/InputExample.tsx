@@ -1,28 +1,71 @@
-import {ref, defineComponent, PropType} from 'vue'
+import { ref, defineComponent, PropType, watch } from "vue"
 
 const Input = defineComponent({
-  props : {
-    onChange : {
-      type : Function as PropType<(v : any) => void>,
-    }  ,
-    value : {
-      type : String,
-      required : true
-    } 
+  props: {
+    onChange: {
+      type: Function as PropType<(v: any) => void>,
+      required: false,
+    },
+    value: {
+      type: String,
+      required: false,
+    },
   },
-  setup: () => {
-    const input = ref(null)
+  setup(props) {
+    const input = ref<HTMLInputElement | null>(null)
 
-    onMounted
+    watch(
+      () => props.value,
+      () => {
+        const ipt = input.value!
+        if(ipt.value !== props.value) {
+          ipt.value = props.value || ""
+        }
+      }
+    )
     return () => {
-      return <input ref={input} />
+      return (
+        <input onInput={e => {
+          props.onChange &&
+            props.onChange(
+              (e.target as HTMLInputElement).value
+            )
+        }} value={props.value} ref={input} />
+      )
     }
   },
 })
-export const InputControlled = () => {
-  const val = ref("hello")
-  return <Input onChange ={v => {
-    console.log('here---')
-    val.value = '123'
-  }} value={val.value} /> 
-}
+
+export const FormExample = defineComponent({
+  setup(){
+    let formData = {
+      username : '张三',
+      info : "xxx"
+    }
+
+    const ver = ref(0)
+
+    return () => {
+      return <div key={ver.value}>
+        <button onClick={() => {
+
+          console.log(formData)
+          formData = {
+            username : '张三',
+            info : "xxx"
+          }
+          ver.value ++
+        }}>重置/提交</button>
+        <Input
+          value={formData.username}
+          onChange={(v) => formData.username = v}
+        />
+        <Input
+          value={formData.info}
+          onChange={(v) => formData.info = v}
+        />
+      </div>
+    }
+  }
+
+})

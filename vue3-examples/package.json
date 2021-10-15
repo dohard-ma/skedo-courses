@@ -7,8 +7,10 @@
   },
   "dependencies": {
     "@types/immutable": "^3.8.7",
+    "@types/mockjs": "^1.0.4",
     "@vitejs/plugin-vue-jsx": "^1.1.6",
     "immutable": "^4.0.0-rc.14",
+    "mockjs": "^1.1.0",
     "rxjs": "^7.3.0",
     "sass": "^1.35.2",
     "vue": "^3.2.20",
