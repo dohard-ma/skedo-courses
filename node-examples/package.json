@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^16.4.12"
+    "@types/node": "^16.4.12",
+    "@types/node-rsa": "^1.1.1",
+    "node-fetch": "^3.0.0",
+    "node-rsa": "^1.1.1",
+    "typescript": "^4.4.4"
   }
 }
